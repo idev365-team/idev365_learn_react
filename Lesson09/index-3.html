@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课09.React中如何渲染表单-Select</title>
+</head>
+<body>
+  
+
+
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+ 
+        class NameForm extends React.Component {
+            constructor(props){
+                super(props)
+                this.state = {
+                    value:'',
+                    myColor:"yellow",
+                }
+                this.handleChange = this.handleChange.bind(this)
+                this.handleSubmit = this.handleSubmit.bind(this)
+                this.handleSelectChange = this.handleSelectChange.bind(this)
+            }
+            handleChange(event){
+                this.setState({
+                    value:event.target.value
+                })
+            }
+
+            handleSelectChange(value){
+                this.setState({
+                    myColor:value
+                })
+            }
+
+            handleSubmit(event){
+                event.preventDefault();
+                alert('A name was submitted:'+this.state.value+"myColor:"+this.state.myColor)
+            }
+
+            render(){
+                const { myColor } = this.state
+                const list = [
+                    {title:"红色",value:'red'},
+                    {title:"黄色",value:'yellow'},
+                    {title:"绿色",value:'green'},
+                ]
+                return(
+                    <form onSubmit={this.handleSubmit}>
+                        <label>Name:
+                            <textarea value={this.state.value} onChange={this.handleChange} />
+                        </label>
+                        <label>FavColor:
+                            <Select onChange={this.handleSelectChange} list={list} defaultValue={myColor}/>
+                        </label>
+                        <input type="submit" value="submit" />
+                    </form>
+                )
+            }
+        }
+
+        class Select extends React.Component {
+            constructor(props){
+                super(props)
+                this.state={
+                    value:props.defaultValue
+                }
+                this.handleChange = this.handleChange.bind(this)
+            }
+
+            handleChange(event){
+                const { onChange } = this.props
+                this.setState({
+                    value:event.target.value
+                })
+                if(onChange && typeof(onChange)==="function"){
+                    onChange(event.target.value)
+                }
+            }
+            render(){
+                const { list } = this.props;
+                const { value } = this.state
+                return (
+                    <select value={value} onChange={this.handleChange}>
+                        {list.map((item,index)=><option key={`select-item-${index}`} value={item.value}>{item.title}</option>)}
+                    </select>
+                )
+            }
+        }
+
+        
+        ReactDOM.render(
+            <NameForm />,
+            appContainer
+            )
+    </script>
+</body>
+</html>

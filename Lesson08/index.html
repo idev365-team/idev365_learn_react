@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课08.React中如何渲染列表</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        function CourseList(props){
+            const { courses } = props
+            if(courses && courses.length>0){
+                const indexCourseList = courses.map((course,index)=>(index+1)+"."+course)
+                const courseListUI = indexCourseList.map((course,index)=><li key={`course-list-${index}`}>{course}</li> )
+                return (
+                    <ul>
+                        { courseListUI }
+                    </ul>
+                )
+            }else{
+                return (
+                    <div>
+                        还没有任何课程！
+                    </div>
+                )
+            }
+            
+        }
+
+        const courses = [
+                "Hello World",
+                "JSX 简介",
+                "元素渲染",
+                "组件 & Props",
+                "State & 生命周期",
+                "事件处理",
+                "条件渲染",
+            ]
+
+        ReactDOM.render(
+            <CourseList courses={courses} />,
+            appContainer
+            )
+    </script>
+</body>
+</html>

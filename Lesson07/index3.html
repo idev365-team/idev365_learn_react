@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课07.React中的条件渲染-3</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        class Mailbox extends React.Component {
+            constructor(props){
+                super(props)
+                this.state={}
+            }
+            render(){
+                const unreadMessages = this.props.unreadMessages;
+                return (
+                    <div>
+                    <h1>Hello!</h1>
+                    {unreadMessages.length > 0 &&
+                        <h2>
+                            You have {unreadMessages.length} unread messages.
+                        </h2>
+                    }
+                    </div>
+                );
+            }
+        }
+
+        const messages = ['React', 'Re: React', 'Re:Re: React'];
+
+        ReactDOM.render(
+            <Mailbox unreadMessages={messages} />,
+            appContainer
+            )
+    </script>
+</body>
+</html>

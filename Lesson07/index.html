@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课07.React中的条件渲染</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        function UserGreeting(props){
+            return <h1>欢迎回来！</h1>
+        }
+
+        function GuestGreeting(props){
+            return <h1>请注册/登陆！</h1>
+        }
+
+        function Greeting(props){
+            const isLoggedIn = props.isLoggedIn;
+            console.log("isLoggedIn-->",isLoggedIn)
+            if( isLoggedIn ){
+                return <UserGreeting />
+            }else{
+                return <GuestGreeting />
+            }
+        }
+
+        ReactDOM.render(
+            <Greeting isLoggedIn={false}/>,
+            appContainer
+            )
+    </script>
+</body>
+</html>

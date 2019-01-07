@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课00.5分钟入门React</title>
+</head>
+<body>
+    <button onclick="doClick()">Click Me</button>
+    <a href="http://www.baidu.com/" onclick="alert('The link was clicked.');return false;">This is a Link</a>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        function doClick(){
+            alert("Do Click")
+        }
+        let appContainer = document.getElementById("app");
+
+        class Button extends React.Component {
+            doClick(){
+                alert("React Do Click")
+            }
+            render(){
+                return (
+                    <button onClick={this.doClick}>
+                        Click Me (React)
+                    </button>
+                )
+            }
+        }
+
+        class MyLink extends React.Component {
+            doClick(e){
+                e.preventDefault()
+                alert("React Click MyLink")
+            }
+            render(){
+                return (
+                    <a href="http://www.baidu.com/" onClick={this.doClick}>
+                        MyLink (React)
+                    </a>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <MyLink />,
+            appContainer
+            )
+    </script>
+</body>
+</html>

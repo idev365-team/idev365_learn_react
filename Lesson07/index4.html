@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课07.React中的条件渲染-4</title>
+    <style>
+        .warning{
+            padding:10px 20px;
+            background-color: rgb(244, 242, 212);
+            border-radius: 5px;
+            color:rgb(120, 120, 120);
+            border:solid 1px  rgb(203, 193, 46);
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        function WarningBanner(props){
+            if(!props.warn){
+                return null;
+            }
+            return (
+                <div className="warning">
+                    {props.warn}
+                </div>
+            )
+        }
+
+        const warn = "你有一条未读消息"
+
+        ReactDOM.render(
+            <div>
+                <WarningBanner warn={warn}/>
+            </div>,
+            appContainer
+            )
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课05.React中的State和生命周期</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        function Clock2(props){
+            const element = (
+                <div>
+                    <h1>Hello,world!</h1>
+                    <h2>现在是:{props.date.toLocaleTimeString()}.</h2>
+                </div>
+            )
+            return element
+        }
+
+        /*
+        new Vue({
+            el:"#app",
+            data(){
+                return {
+                    date:new Date()
+                }
+            }
+        })
+        */
+
+        class Clock extends React.Component {
+            constructor(props){
+                super(props)
+                this.state = {
+                    date:new Date(),
+                    count01:0,
+                    count02:10,
+                    count03:100,
+                }
+                console.log("Clock-->constructor",props)
+                
+            }
+            tick(){
+                console.log("call->tick")
+                this.setState(function(prevState,props){
+                    return {
+                        date:new Date(),
+                        count01: prevState.count01+1,
+                        count02: prevState.count02+1,
+                        count03: prevState.count03+1
+                    }
+                })
+            }
+            componentWillUnmount(){
+                console.log("componentWillUnmount")
+                clearInterval(this.timerID)
+            }
+            componentDidMount(){
+                console.log("componentDidMount")
+                this.timerID = setInterval(() => {
+                    this.tick()
+                }, 1000);
+            }
+            render(){
+                console.log("render->",this.state)
+                const { date } = this.state;
+                return (
+                    <div>
+                        <h1>Hello,world!</h1>
+                        <HelloWorld>现在是:{date.toLocaleTimeString()}.</HelloWorld>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Clock title="abc"/>,document.getElementById("app"))
+    </script>
+</body>
+</html>

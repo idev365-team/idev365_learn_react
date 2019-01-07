@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课09.React中如何渲染表单</title>
+</head>
+<body>
+    <form>
+        <label>Name:
+            <input type="text" name="name" />
+        </label>
+        <input type="submit" value="submit" />
+    </form>
+
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+ 
+        class NameForm extends React.Component {
+            constructor(props){
+                super(props)
+                this.state = {
+                    value:''
+                }
+                this.handleChange = this.handleChange.bind(this)
+                this.handleSubmit = this.handleSubmit.bind(this)
+            }
+            handleChange(event){
+                this.setState({
+                    value:event.target.value.toUpperCase()
+                })
+            }
+
+            handleSubmit(event){
+                event.preventDefault();
+                alert('A name was submitted:'+this.state.value)
+            }
+
+            render(){
+                return(
+                    <form onSubmit={this.handleSubmit}>
+                        <label>Name:
+                            <input type="text" value={this.state.value} onChange={this.handleChange} />
+                        </label>
+                        <input type="submit" value="submit" />
+                    </form>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <NameForm />,
+            appContainer
+            )
+    </script>
+</body>
+</html>

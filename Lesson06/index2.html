@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课00.5分钟入门React</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+       class Toggle extends React.Component{
+            constructor(props){
+                super(props)
+                this.state={
+                    isToggleOn:true
+                }
+                console.log("Toggle constructor->this",this)
+                // this.handleClick = this.handleClick.bind(this)
+            }
+
+            handleClick(title,e){
+                console.log("handleClick")
+                console.log("Toggle handleClick->this",this)
+                this.setState(prevState=>({
+                    isToggleOn:!prevState.isToggleOn
+                }))
+            }
+
+            render(){
+                return (
+                    <button onClick={this.handleClick.bind(this,"abc")}>
+                        { this.state.isToggleOn ? 'ON' : 'OFF' }
+                    </button>
+                )
+            }
+       }
+
+       ReactDOM.render(<Toggle/>,document.getElementById('app'))
+    </script>
+</body>
+</html>

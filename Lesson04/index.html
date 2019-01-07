@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课04.React中的组件和Props是啥？</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        const welcome1 = (
+            <div>
+                <h1>Hello,React</h1>
+                <h2>Hello,React</h2>
+            </div>
+        )
+
+        function Welcome2(props){
+            console.log("props->",props)
+            return <h1>{props.title},{props.name}</h1>
+        }
+
+        class Welcome3 extends React.Component {
+            render(){
+                const props = this.props;
+                return (<h1>{props.title},{props.name}</h1>)
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                { welcome1 }
+                <Welcome2 title="你好" name="Colin"/>
+                <Welcome3 title="你好" name="Colin"/>
+            </div>,
+            appContainer
+            )
+    </script>
+</body>
+</html>

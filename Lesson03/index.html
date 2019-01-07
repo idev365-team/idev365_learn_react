@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课03.React中渲染元素</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        // function update(){
+        //     const localTime = new Date().toLocaleTimeString()
+        //     const element = (
+        //         <div>
+        //             <h1>Hello,World</h1>
+        //             <h2>It is { localTime }.</h2>
+        //         </div>
+        //     )
+        //     ReactDOM.render(element,document.getElementById("app"))
+        // }
+
+        function update(){
+            const localTime = new Date().toLocaleTimeString()
+            const element = `
+                <div>
+                    <h1>Hello,World</h1>
+                    <h2>It is ${ localTime }.</h2>
+                </div>
+            `
+            const rootElement = document.getElementById("app")
+            rootElement.innerHTML = element;
+
+        }
+        setInterval(update, 1000);
+    </script>
+</body>
+</html>

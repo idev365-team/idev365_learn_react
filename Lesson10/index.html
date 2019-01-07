@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课10.React中的状态提升</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        /*
+        new Vue({
+            el:'#app',
+            template:`<h1>Hello,Vue</h1>`
+        })
+        */
+
+        function createReactApp({ 
+                el="#app",
+                rootComp=(<h1>Hello,React</h1>)
+            }){
+            ReactDOM.render(rootComp,document.querySelector(el))
+        }
+
+        class ButtonAdd extends React.Component {
+            handerClick=()=>{
+                const { count,onChange } = this.props
+                if(onChange){
+                    onChange(count+1)
+                }
+            }
+            render(){
+                const { count } = this.props
+                return (<button onClick={this.handerClick}>ButtonAdd-${count}</button>)
+            }
+        }
+
+        class ButtonSub extends React.Component {
+            handerClick=()=>{
+                const { count,onChange } = this.props
+                if(onChange){
+                    onChange(count-1)
+                }
+            }
+            render(){
+                const { count } = this.props
+                return (<button onClick={this.handerClick}>ButtonSub-${count}</button>)
+            }
+        }
+
+        class Calculator extends React.Component {
+            constructor(props){
+                super(props)
+                this.state={
+                    count: 50
+                }
+            }
+
+            handleChange=(value)=>{
+                this.setState({
+                    count:value,
+                })
+            }
+
+            render(){
+                const { count } = this.state
+                return (
+                    <div>
+                        <h1>{ count }</h1>
+                        <ButtonAdd count={count} onChange={this.handleChange} />
+                        <ButtonSub count={count} onChange={this.handleChange}/>
+                    </div>
+                )
+            }
+        }
+
+
+        createReactApp({
+            el:"#root",
+            rootComp:<Calculator />
+        })
+        
+        
+
+
+        
+        
+    </script>
+</body>
+</html>

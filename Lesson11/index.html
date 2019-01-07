@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课11.React中的组合和继承</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+        .navBar{
+            height:60px;
+            background-color: #20232a;
+        }
+        .logo{
+            color:#61dafb;
+            font-size: 30px;
+            font-weight: bolder;
+            line-height: 60px;
+            padding:0 20px;
+        }
+        .logo-icon{
+            margin-right:10px;
+        }
+        .mainMenu{
+            display: inline-block;
+        }
+        .mainMenu li{
+            display: inline-block;
+            
+        }
+        .mainMenu li a{
+            color:white;
+            padding:20px;
+            text-decoration: none;
+        }
+        .pageBody{
+            padding:20px;
+        }
+        .title{
+
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+        function Logo(props){
+            return (
+                <span className="logo">
+                    <img className="logo-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K" alt="" height="20"></img>
+                    { props.title }
+                </span>
+            )
+        }
+
+        function MenuItem(props){
+            const {menu} = props;
+            return (
+                <li><a href={menu.linkTo}>{ menu.title }</a></li>
+            )
+        }
+
+        function Menu(props){
+            return (
+                <ul className="mainMenu">
+                    {props.menus.map((menu,index)=><MenuItem key={`main-menu-item-${index}`} menu={menu}/>)}
+                </ul>
+            )
+        }
+
+        const menuList = [
+            {title:'文档',linkTo:"https://react.docschina.org/docs/composition-vs-inheritance.html"},
+            {title:'教程',linkTo:"https://react.docschina.org/tutorial/tutorial.html"},
+            {title:'社区',linkTo:"https://react.docschina.org/community/support.html"},
+            {title:'博客',linkTo:"https://react.docschina.org/blog/2018/10/23/react-v-16-6.html"},
+        ]
+        function NavBar(){
+            return (
+                <div className="navBar">
+                    <Logo title="React"/>
+                    <Menu menus={menuList}/>
+                </div>
+            )
+        }
+
+        function Title(props){
+            return (
+                <h1 className="title">
+                    {props.title}
+                </h1>
+            )
+        }
+
+        function PageBody(){
+            return (
+                <div className="pageBody">
+                    <Title title="组合 vs 继承"/>
+                </div>
+            )
+        }
+
+        function PageContainer(){
+            return (
+                <div>
+                    <NavBar />
+                    <PageBody />
+                </div>
+            )
+        }
+        ReactDOM.render(
+            <PageContainer/>,
+            appContainer
+            )
+    </script>
+</body>
+</html>

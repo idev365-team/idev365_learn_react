@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课04.React中的组件和Props是啥？</title>
+    <style>
+        .UserInfo{
+            
+        }
+        .UserInfo-name{
+            color:white;
+        }
+        .Avatar{
+            width:80px;
+            border-radius: 5px;
+        }
+
+        .Comment{
+            background-color: darkorange;
+            padding:10px 20px;
+            border-radius: 5px;
+        }
+        .Comment-text{
+            color:white;
+        }
+        .Comment-date{
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+        function formatDate(date){
+            return date;
+        }
+        function Avatar(props){
+            return (
+                <img className="Avatar"
+                    src={props.user.avatarUrl}
+                    alt={props.user.name}
+                    />
+            )
+        }
+        function UserInfo(props){
+            return (
+                <div className="UserInfo">
+                   <Avatar user={props.user}/>
+                    <div className="UserInfo-name">
+                    {props.user.name}
+                    </div>
+                </div>
+            )
+        }
+
+        function CommentMsg(props){
+            return (
+               <div>
+                    <div className="Comment-text">
+                        {props.msg.text}
+                    </div>
+                    <div className="Comment-date">
+                        {formatDate(props.msg.date)}
+                    </div>
+               </div>
+            )
+        }
+
+        function Comment(props) {
+            return (
+                <div className="Comment">
+                <UserInfo user={props.author}/>
+                <CommentMsg msg={ props.msg }/>
+                </div>
+            );
+        }
+
+        const author = {
+            name:"山地人",
+            avatarUrl:"http://i2.hdslb.com/bfs/face/321d0cb84be55af91e190499af164dd6f6034e27.jpg"
+        }
+        const msg = { text:"Hello World",date:"2019-01-06" }
+
+        ReactDOM.render(
+            <Comment author={author} msg={ msg }/>,
+            appContainer
+            )
+    </script>
+</body>
+</html>
