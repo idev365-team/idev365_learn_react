@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课27.什么是Portals跨界渲染？</title>
+    <style>
+        #app{
+            border:solid 1px red;
+            height:100px;
+        }
+        .dialogHello{
+            background-color: rgba(0,0,0,0.6);
+            color:white;
+            font-size:60px;
+            position: absolute;
+            left:0;
+            top:0;
+            right:0;
+            bottom:0;
+            border:solid 10px gray;
+            padding:10px;
+            text-align: center;
+        }
+        #modal{
+            border:solid 1px green;
+            height:100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <div id="modal"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        function HelloDialog(){
+            return ReactDOM.createPortal((
+                <div className="dialogHello">
+                    Hi,我是Portals！！！
+                </div>
+            ), document.querySelector("#modal"))
+             
+        }
+
+
+        ReactDOM.render(
+            <div>
+                Hello,React
+                <HelloDialog />
+            </div>,
+            appContainer
+            )
+    </script>
+</body>
+</html>

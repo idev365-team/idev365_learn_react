@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课24.Context实现跨层级传递数据</title>
+    <style>
+        .btn{
+            outline: none;
+            padding:10px 20px;
+            background-color:lightblue;
+            color:black;
+            border-radius: 5px;
+        }
+        .btn-dark{
+            background-color:darkblue;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./libs/react.development.js" crossorigin></script>
+    <script src="./libs/react-dom.development.js" crossorigin></script>
+    <script src="./libs/babel.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        function Button(props){
+            return <button className={["btn","btn-"+props.theme].join(" ")}>MyButton</button>
+        }
+
+        function ThemedButton(props){
+            return <Button theme={props.theme}/>
+        }
+
+        function Toolbar(props){
+            return (
+                <div>
+                    <ThemedButton theme={props.theme} />
+                </div>
+            )
+        }
+
+
+
+        ReactDOM.render(
+            <Toolbar theme="light"/>,
+            appContainer
+            )
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "dev":"watchify  -t [babelify --presets [@babel/react] ]  src/index2.js -o dist/bundle.js",
+    "build": "browserify  -t [babelify --presets [@babel/react] ]  src/index2.js -o dist/bundle.js"
+  },
+  "dependencies": {
+    "create-react-class": "^15.6.3",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-react": "^7.0.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.2.3",
+    "watchify": "^3.11.0"
+  }
+}

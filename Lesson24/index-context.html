@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课24.Context实现跨层级传递数据-context</title>
+    <style>
+        html,body{
+            padding: 0;
+            margin:0;
+        }
+        .toolbar{
+            padding:10px 20px;
+            border-top:solid 1px gray;
+            border-bottom:solid 1px gray;
+        }
+        .toolbar-dark{
+            border-top:solid 1px gray;
+            border-bottom:solid 1px gray;
+            background-color:black;
+        }
+        .btn{
+            outline: none;
+            padding:10px 20px;
+            background-color:lightblue;
+            color:black;
+            border-radius: 5px;
+        }
+        .btn-dark{
+            background-color:darkblue;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script src="./libs/react.development.js" crossorigin></script>
+    <script src="./libs/react-dom.development.js" crossorigin></script>
+    <script src="./libs/babel.js"></script>
+    
+    <script type="text/babel">
+        let appContainer = document.getElementById("app");
+
+        const ThemeContext = React.createContext('dark');
+
+        console.log("ThemeContext-->",ThemeContext)
+
+
+        function Button(props){
+            return <button className={["btn","btn-"+props.theme].join(" ")}>MyButton</button>
+        }
+
+        function ThemedButton(props){
+            return (
+                <ThemeContext.Consumer>
+                    {theme => {
+                        console.log("theme->",theme)
+                        return <Button {...props} theme={theme}/>
+                    }}
+                </ThemeContext.Consumer>
+            )
+        }
+
+        function Toolbar(props){
+            return (
+                <ThemeContext.Consumer>
+                { theme => (
+                    <div className={`toolbar toolbar-${theme}`}>
+                        <ThemedButton />
+                    </div>
+                    )
+                }
+                </ThemeContext.Consumer>
+            )
+        }
+
+
+
+        ReactDOM.render(
+            <ThemeContext.Provider value="dark">
+                    <Toolbar/>
+            </ThemeContext.Provider>,
+            appContainer
+            )
+    </script>
+</body>
+</html>

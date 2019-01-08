@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课25.Context实现跨层级传递数据（下）</title>
+    <style>
+        .btn{
+            outline: none;
+            padding:10px 20px;
+            background-color:lightblue;
+            color:black;
+            border-radius: 5px;
+        }
+        .btn-dark{
+            background-color:darkblue;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./libs/react.development.js"></script>
+    <script src="./libs/react-dom.development.js"></script>
+    <script src="./libs/babel.js"></script>
+    <script type="text/babel">
+        let appContainer = document.getElementById("app")
+
+        const ThemeContext = React.createContext('light')
+        const UserContext =React.createContext("山地人")
+
+        function Button(props){
+            return <button className={["btn","btn-"+props.theme].join(" ")}>MyButton</button>
+        }
+
+        function ThemedButton(props){
+            return <Button theme={props.theme}/>
+        }
+
+        function ProfilePage(props){
+            return (
+                <div>
+                    User:{props.user} Theme:{props.theme}
+                </div>
+            )
+        }
+
+        function Toolbar(props){
+            return (
+                <ThemeContext.Consumer>
+                {
+                    theme =>(
+                        <UserContext.Consumer>
+                            {
+                                user=>(
+                                    <div>
+                                        <ProfilePage user={user} theme={theme} />
+                                    </div>
+                                )
+                            }
+                        </UserContext.Consumer>
+                    )
+                }
+                </ThemeContext.Consumer>
+            )
+        }
+
+        class App extends React.Component {
+            render(){
+                const { loginUser,theme} = this.props
+                return (
+                    <ThemeContext.Provider value={theme}>
+                        <UserContext.Provider value={loginUser}>
+                            <Toolbar theme="light"/>
+                        </UserContext.Provider>
+                    </ThemeContext.Provider>
+                )
+            }
+        }
+
+
+        ReactDOM.render(
+            <App loginUser="张山" theme="dark"/>,
+            appContainer
+            )
+    </script>
+</body>
+</html>
