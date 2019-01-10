@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课34.如何改造JQuery项目到React？-v3</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" ></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="./libs/jquery-3.3.1.min.js"></script>
+    
+    <script type="text/babel">
+        function Button(){
+            function handleClick() {
+                alert('Hello!');
+            }
+            return <button onClick={handleClick}>Say Hello</button>
+        }
+        ReactDOM.render(
+            <Button />,
+            document.getElementById("app"),
+        )
+    </script>
+</body>
+</html>
