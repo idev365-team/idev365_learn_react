@@ -9,7 +9,11 @@ class Board extends Component {
     }
     genSquareUI(pos){
         const { squares } = this.props
-        return (<Square pos={pos} info={squares[pos]} onClick={this.props.onClickSquare}/>)
+        return (<Square 
+                    pos={pos} 
+                    info={squares[pos]}
+                    onClick={this.props.onClickSquare}
+                />)
     }
     render(){
         

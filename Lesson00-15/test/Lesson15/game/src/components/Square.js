@@ -18,16 +18,18 @@ class Square extends Component {
         }
         return title
     }
-
     handleClick=()=>{
-        const { info,pos } = this.props
-        if(this.props.onClick){
-            this.props.onClick(pos,info)
+        const { onClick,pos,info } = this.props
+        if(onClick){
+            onClick(pos,info)
         }
     }
     render(){
         return (
-            <div className="square" onClick={this.handleClick}>
+            <div 
+                className="square"
+                onClick={this.handleClick}
+            >
                 {this.getSquareTitle()}
             </div>
         )

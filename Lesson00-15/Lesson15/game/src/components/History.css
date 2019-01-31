@@ -1,10 +1,7 @@
 .history{
     margin-top: 10px;
 }
-.recordItem{
-    margin-top:5px;
-}
-.btnRecord{
-    width:120px;
-    padding:5px 10px;
+.history ul li{
+    list-style: none;
+    margin-bottom: 5px;
 }

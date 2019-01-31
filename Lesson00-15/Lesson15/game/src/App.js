@@ -15,10 +15,22 @@ class App extends Component {
   }
   getCurPlayer(){
     const { stepCount } = this.state
-    return stepCount%2 ===0 ? "X" : "O"
+    return stepCount%2==0?"X":"O"
   }
 
-  getIsWin(){
+  calcSquares(history,stepCount){
+    const squaresNew = new Array(9).fill(null)
+    for(let i=0;i<stepCount;i++){
+        let curHistory = history[i]
+        squaresNew[curHistory.pos] = curHistory.player
+    }
+    return squaresNew
+  }
+
+  isWin(){
+    let result = false
+    let winPlayer = null
+    const { squares } = this.state
     const winConditions = [
       [0,1,2],
       [3,4,5],
@@ -27,87 +39,68 @@ class App extends Component {
       [1,4,7],
       [2,5,8],
       [0,4,8],
-      [2,4,6]
+      [2,4,6],
     ]
-    let isWin = false;
-    let winPlayer = null;
-    const { squares } = this.state
-    //判断是否有在一条线的相同类型的棋子
+
     for(let i=0;i<winConditions.length;i++){
-      const curCondition=winConditions[i]
-      const square01 = squares[ curCondition[0] ]
-      const square02 = squares[ curCondition[1] ]
-      const square03 = squares[ curCondition[2] ]
-      if(null !==square01 && square01===square02 && square02===square03 ){
-        isWin = true
-        winPlayer = square01
+      let curCondition = winConditions[i];
+      let first = squares[curCondition[0]]
+      let second = squares[curCondition[1]]
+      let third = squares[curCondition[2]]
+      if(null!=first && first===second && second===third){
+        result = true;
+        winPlayer = first
+        break;
       }
     }
+    
     return {
-      isWin,
-      winPlayer,
+      result:result,
+      winPlayer:winPlayer,
     }
+  }
+
+  handleRestartGame=()=>{
+    const stepCountNew = 0
+    this.setState((prevState)=>({
+      stepCount:stepCountNew,
+      squares:this.calcSquares(prevState.history,stepCountNew)
+    }))
+  }
+
+  handleClickHistory=(hisotryItem)=>{
+    console.log("hisotryItem-->",hisotryItem)
+    const stepCountNew = hisotryItem.stepCount
+    this.setState((prevState)=>({
+      stepCount:stepCountNew+1,
+      squares:this.calcSquares(prevState.history,stepCountNew+1)
+    }))
   }
 
   handleClickSquare=(pos,info)=>{
-    const {
-      squares,
-      stepCount,
-      history,
-    } = this.state
-
-    console.log("pos->",pos,"info->",info)
-    //当前是否已经win？，win状态不做任何操作
-    const {isWin} = this.getIsWin()
-    if(isWin){ return }
-    //当前的棋盘格子是否已经下过子
-    if(!info){
-      //下这步棋
-      const curPlayer = this.getCurPlayer()
-      console.log("handleClickSquare->history",history,stepCount)
-      const oldHistory = history.slice(0,stepCount)
-      console.log("handleClickSquare->history",oldHistory,stepCount)
+    console.log(pos,info)
+    let { result } = this.isWin() 
+    if( result ){
+      return
+    }
+    if(info==null){
+      const { history } = this.state;
+      console.log("history",history)
       const historyNew = [
-        ...oldHistory,{
-          player:curPlayer,
+        ...history.slice(0,this.state.stepCount),
+        {
+          stepCount:this.state.stepCount,
+          player:this.getCurPlayer(),
           pos:pos,
+
         }
       ]
-      const stepCountNew = stepCount+1
-      this.setState({
+      this.setState((prevState)=>({
         history:historyNew,
-        stepCount:stepCountNew,
-        squares:this.calcBoardAllSquares(historyNew,stepCountNew)
-      })
+        stepCount:prevState.stepCount+1,
+        squares:this.calcSquares(historyNew,prevState.stepCount+1)
+      }))
     }
-  }
-
-  handleClickRecord=(curStepCount,record)=>{
-    console.log("handleClickRecord-->",curStepCount,record)
-    // const { history } = this.state
-    const stepCountNew = curStepCount+1
-    this.setState((preState)=>({
-      stepCount:stepCountNew,
-      squares:this.calcBoardAllSquares(preState.history,stepCountNew)
-    }))
-  }
-
-  handleClickRestartGame=()=>{
-    const stepCountNew = 0
-    this.setState((preState)=>({
-      stepCount:stepCountNew,
-      squares:this.calcBoardAllSquares(preState.history,stepCountNew)
-    }))
-  }
-
-  calcBoardAllSquares(history,stepCount){
-    console.log("calcBoardAllSquares->",history,stepCount)
-    let squares = new Array(9).fill(null)
-    for(let i=0;i<stepCount;i++){
-      let info = history[i]
-      squares[info.pos] = info.player
-    }
-    return squares
   }
 
   render() {
@@ -119,11 +112,13 @@ class App extends Component {
           <Board squares={squares} onClickSquare={this.handleClickSquare}/>
         </div>
         <div className="rightPanel">
-          <PlayerInfo curPlayer={curPlayer} winInfo={this.getIsWin()}/>
-          <History history={history} 
-                   onClickRecord={this.handleClickRecord}
-                   onClickRestartGame={this.handleClickRestartGame}
-                   />
+          <PlayerInfo 
+            winResult={this.isWin()}
+            curPlayer={curPlayer}/>
+          <History 
+            history={history} 
+            onRestartGame={this.handleRestartGame} 
+            onClickHistory={this.handleClickHistory}/>
         </div>
       </div>
     );
